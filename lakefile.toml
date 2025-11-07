@@ -8,3 +8,8 @@ name = "LeanPlayground"
 [[lean_exe]]
 name = "lean-playground"
 root = "Main"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.18.0"

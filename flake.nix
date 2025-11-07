@@ -5,6 +5,7 @@
     devenv.url = "github:cachix/devenv";
     juuso.url = "github:jhvst/nix-config";
     nixvim.url = "github:nix-community/nixvim";
+    lean4.url = "github:leanprover/lean4/v4.18.0";
   };
 
   nixConfig = {
@@ -29,11 +30,18 @@
           dependencies.lean.enable = true;
           plugins.lean.enable = true;
           plugins.lsp.servers.leanls.enable = true;
+          plugins.cmp.settings = {
+            sources =
+              [
+                { name = "latex_symbols"; }
+              ];
+          };
         };
       };
 
       devenv.shells.default = {
-        packages = with pkgs; [ lean4 ];
+        packages = with pkgs; [ lean4 ]
+          ++ inputs'.lean4.devShells.default.buildInputs;
       };
 
     };
