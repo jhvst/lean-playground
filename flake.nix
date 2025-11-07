@@ -2,19 +2,12 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:cachix/devenv-nixpkgs/rolling";
-    devenv.url = "github:cachix/devenv";
     juuso.url = "github:jhvst/nix-config";
     nixvim.url = "github:nix-community/nixvim";
-    lean4.url = "github:leanprover/lean4/v4.18.0";
-  };
-
-  nixConfig = {
-    extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
-    extra-substituters = "https://devenv.cachix.org";
   };
 
   outputs = inputs@{ ... }: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-    imports = [ inputs.devenv.flakeModule ];
+    imports = [ ];
     systems = inputs.nixpkgs.lib.systems.flakeExposed;
     perSystem = { pkgs, system, inputs', ... }: {
 
@@ -39,12 +32,12 @@
         };
       };
 
-      devenv.shells.default = {
-        packages = with pkgs; [ lean4 ]
-          ++ inputs'.lean4.devShells.default.buildInputs;
+      devShells.default = pkgs.mkShell {
+        packages = with pkgs; [
+          lean4
+        ];
       };
 
     };
-    flake = { };
   };
 }
